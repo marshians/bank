@@ -10,11 +10,7 @@ let TransactionList = () => {
 
   const user = React.useContext(AuthContext);
   React.useEffect(() => {
-    if (user !== null && user !== undefined) {
-      backend.get_recent_transactions(user).then((transactions) => {
-        setTransactions(transactions);
-      });
-    }
+    backend(user).get_recent_transactions(setTransactions);
   }, [user, setTransactions]);
 
   const formatter = new Intl.NumberFormat("en-US", {

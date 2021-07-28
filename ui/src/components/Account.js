@@ -9,14 +9,9 @@ import backend from "./../api/backend.js";
 
 const Account = () => {
   const [account, setAccount] = React.useState(null);
-
   const user = React.useContext(AuthContext);
   React.useEffect(() => {
-    if (user !== null && user !== undefined) {
-      backend.get_account(user).then((a) => {
-        setAccount(a);
-      });
-    }
+    backend(user).get_account(setAccount);
   }, [user, setAccount]);
 
   const formatter = new Intl.NumberFormat("en-US", {

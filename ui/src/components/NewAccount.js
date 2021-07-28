@@ -13,10 +13,10 @@ let NewAccount = ({ updateAccounts }) => {
   const user = React.useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ account });
-    backend.new_account(user, account).then(() => {
+    (async () => {
+      await backend(user).new_account(account);
       updateAccounts();
-    });
+    })();
     setAccount("");
   };
 

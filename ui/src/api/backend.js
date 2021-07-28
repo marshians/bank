@@ -1,66 +1,56 @@
-const backend = {
-  get_accounts: (user) => {
-    return fetch(
-      window.location.protocol + "//" + window.location.host + "/api/accounts",
-      {
+const backend = (user) => {
+  const host = window.location.protocol + "//" + window.location.host;
+  return {
+    get_accounts: async (setter) => {
+      if (user === null || user === undefined) return;
+      let response = await fetch(`${host}/api/accounts`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + user.getAuthResponse().id_token,
         },
-      },
-    ).then((d) => d.json());
-  },
+      });
+      let accounts = await response.json();
+      setter(accounts);
+    },
 
-  get_account: (user) => {
-    return fetch(
-      window.location.protocol +
-        "//" +
-        window.location.host +
-        "/api/accounts/mine",
-      {
+    get_account: async (setter) => {
+      if (user === null || user === undefined) return;
+      let response = await fetch(`${host}/api/accounts/mine`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + user.getAuthResponse().id_token,
         },
-      },
-    ).then((d) => d.json());
-  },
+      });
+      let account = await response.json();
+      setter(account);
+    },
 
-  get_recent_transactions: (user) => {
-    return fetch(
-      window.location.protocol +
-        "//" +
-        window.location.host +
-        "/api/transactions",
-      {
+    get_recent_transactions: async (setter) => {
+      if (user === null || user === undefined) return;
+      let response = await fetch(`${host}/api/transactions`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + user.getAuthResponse().id_token,
         },
-      },
-    ).then((d) => d.json());
-  },
+      });
+      let transactions = await response.json();
+      setter(transactions);
+    },
 
-  new_account: (user, account) => {
-    return fetch(
-      window.location.protocol + "//" + window.location.host + "/api/accounts",
-      {
+    new_account: async (account) => {
+      if (user === null || user === undefined) return;
+      await fetch(`${host}/api/accounts`, {
         method: "POST",
         body: JSON.stringify({ _id: account }),
         headers: {
           Authorization: "Bearer " + user.getAuthResponse().id_token,
         },
-      },
-    );
-  },
+      });
+    },
 
-  new_transaction: (user, account, description, amount) => {
-    return fetch(
-      window.location.protocol +
-        "//" +
-        window.location.host +
-        "/api/transactions",
-      {
+    new_transaction: async (account, description, amount) => {
+      if (user === null || user === undefined) return;
+      await fetch(`${host}/api/transactions`, {
         method: "POST",
         body: JSON.stringify({
           account_id: account,
@@ -70,9 +60,9 @@ const backend = {
         headers: {
           Authorization: "Bearer " + user.getAuthResponse().id_token,
         },
-      },
-    );
-  },
+      });
+    },
+  };
 };
 
 export default backend;

@@ -20,13 +20,13 @@ let NewTransaction = ({ accounts, updateAccounts }) => {
   const user = React.useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ account, description, amount });
-    backend.new_transaction(user, account, description, amount).then(() => {
+    (async () => {
+      await backend(user).new_transaction(account, description, amount);
       updateAccounts();
-    });
-    setAccount("");
-    setDescription("");
-    setAmount("");
+      setAccount("");
+      setDescription("");
+      setAmount("");
+    })();
   };
 
   return (

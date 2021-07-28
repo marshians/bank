@@ -4,16 +4,18 @@ use bank;
 
 #[macro_use]
 extern crate rocket;
+use clap::Clap;
 use rocket::{fs::FileServer, http::Status, response::status, serde::json::Json, State};
 
 #[post("/accounts", data = "<account>")]
 async fn new_account(
-    b: &State<Mutex<bank::Bank>>,
-    account: Json<bank::Account>,
+    b: &State<Mutex<bank::mongo::Bank>>,
+    options: &State<bank::options::Options>,
+    account: Json<bank::mongo::Account>,
     claims: bank::google::Claims,
-) -> Result<Json<bank::Account>, status::Custom<String>> {
-    // Verify token.
-    if claims.sub != "104096140423971754088".to_string() {
+) -> Result<Json<bank::mongo::Account>, status::Custom<String>> {
+    // Verify admin.
+    if !options.admins.contains(&claims.sub) {
         return Err(status::Custom(
             Status::Unauthorized,
             "not admin".to_string(),
@@ -29,12 +31,13 @@ async fn new_account(
 
 #[post("/transactions", data = "<transaction>")]
 async fn new_transaction(
-    b: &State<Mutex<bank::Bank>>,
-    transaction: Json<bank::Transaction>,
+    b: &State<Mutex<bank::mongo::Bank>>,
+    options: &State<bank::options::Options>,
+    transaction: Json<bank::mongo::Transaction>,
     claims: bank::google::Claims,
-) -> Result<Json<bank::Account>, status::Custom<String>> {
-    // Verify token.
-    if claims.sub != "104096140423971754088".to_string() {
+) -> Result<Json<bank::mongo::Account>, status::Custom<String>> {
+    // Verify admin.
+    if !options.admins.contains(&claims.sub) {
         return Err(status::Custom(
             Status::Unauthorized,
             "not admin".to_string(),
@@ -57,9 +60,9 @@ async fn new_transaction(
 
 #[get("/transactions")]
 async fn get_transactions(
-    b: &State<Mutex<bank::Bank>>,
+    b: &State<Mutex<bank::mongo::Bank>>,
     claims: bank::google::Claims,
-) -> Result<Json<Vec<bank::Transaction>>, status::Custom<String>> {
+) -> Result<Json<Vec<bank::mongo::Transaction>>, status::Custom<String>> {
     let mut b = b.lock().await;
     match b.get_recent_transactions(&claims.email).await {
         Ok(txns) => Ok(Json(txns)),
@@ -69,9 +72,9 @@ async fn get_transactions(
 
 #[get("/accounts/mine")]
 async fn get_account_mine(
-    b: &State<Mutex<bank::Bank>>,
+    b: &State<Mutex<bank::mongo::Bank>>,
     claims: bank::google::Claims,
-) -> Result<Json<bank::Account>, status::Custom<String>> {
+) -> Result<Json<bank::mongo::Account>, status::Custom<String>> {
     let mut b = b.lock().await;
     match b.get_account(&claims.email).await {
         Ok(account) => Ok(Json(account)),
@@ -81,11 +84,12 @@ async fn get_account_mine(
 
 #[get("/accounts")]
 async fn get_accounts(
-    b: &State<Mutex<bank::Bank>>,
+    b: &State<Mutex<bank::mongo::Bank>>,
+    options: &State<bank::options::Options>,
     claims: bank::google::Claims,
-) -> Result<Json<Vec<bank::Account>>, status::Custom<String>> {
-    // Verify token.
-    if claims.sub != "104096140423971754088".to_string() {
+) -> Result<Json<Vec<bank::mongo::Account>>, status::Custom<String>> {
+    // Verify admin.
+    if !options.admins.contains(&claims.sub) {
         return Err(status::Custom(
             Status::Unauthorized,
             "not admin".to_string(),
@@ -103,15 +107,16 @@ async fn get_accounts(
 
 #[launch]
 async fn rocket() -> _ {
-    let b = bank::Bank::new(
-        &std::env::var("MONGO_URI").unwrap(),
-        &std::env::var("MONGO_DB").unwrap(),
-    )
-    .await
-    .unwrap();
+    let options = bank::options::Options::parse();
+    let b = bank::mongo::Bank::new(&options.uri, &options.db)
+        .await
+        .unwrap();
+
+    println!("{:?}", options.admins);
 
     rocket::build()
         .manage(Mutex::new(b))
+        .manage(options)
         .mount("/", FileServer::from("./ui"))
         .mount(
             "/api",

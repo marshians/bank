@@ -5,12 +5,13 @@ import Account from "./Account.js";
 import Admin from "./Admin.js";
 
 let Content = () => {
+  const admins = process.env.REACT_APP_ADMINS.split(",");
   const user = React.useContext(AuthContext);
   if (user === null || user === undefined) {
     return (
       <div>Please login using the button at the top right of this page.</div>
     );
-  } else if (user.getBasicProfile().getId() === "104096140423971754088") {
+  } else if (admins.includes(user.getBasicProfile().getId())) {
     return <Admin />;
   } else {
     return <Account />;

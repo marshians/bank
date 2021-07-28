@@ -8,19 +8,10 @@ import NewTransaction from "./NewTransaction.js";
 import backend from "./../api/backend.js";
 
 let Admin = () => {
-  const user = React.useContext(AuthContext);
   const [accounts, setAccounts] = React.useState([]);
-
+  const user = React.useContext(AuthContext);
   const updateAccounts = React.useCallback(() => {
-    if (
-      user !== null &&
-      user !== undefined &&
-      user.getBasicProfile().getId() === "104096140423971754088"
-    ) {
-      backend.get_accounts(user).then((aa) => {
-        setAccounts(aa);
-      });
-    }
+    backend(user).get_accounts(setAccounts);
   }, [user]);
 
   React.useEffect(() => {

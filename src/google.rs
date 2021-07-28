@@ -1,6 +1,8 @@
 use std::error;
 use std::fmt;
 
+use crate::options::Options;
+
 use hyper::{Body, Client, Method, Request, Uri};
 use hyper_rustls::HttpsConnector;
 use jsonwebtoken;
@@ -159,7 +161,8 @@ impl<'r> FromRequest<'r> for Claims {
             }
 
             // Verify JWT.
-            match verify_token(parts[1]).await {
+            let options = req.rocket().state::<Options>().unwrap();
+            match verify_token(parts[1], &options.client_id).await {
                 Ok(claims) => Outcome::Success(claims),
                 Err(_) => {
                     return Outcome::Failure((
@@ -177,7 +180,7 @@ impl<'r> FromRequest<'r> for Claims {
     }
 }
 
-async fn verify_token(token: &str) -> Result<Claims> {
+async fn verify_token(token: &str, aud: &str) -> Result<Claims> {
     // Get google's keys.
     let keys = get_google_keys().await?;
 
@@ -193,7 +196,6 @@ async fn verify_token(token: &str) -> Result<Claims> {
     // Decode with RS256 using Google's keys and our audience.
     let dk = jsonwebtoken::DecodingKey::from_rsa_components(key.n.as_str(), key.e.as_str());
     let mut validation = jsonwebtoken::Validation::new(jsonwebtoken::Algorithm::RS256);
-    let aud = std::env::var("CLIENT_ID").unwrap();
     validation.set_audience(&[aud]);
 
     Ok(jsonwebtoken::decode::<Claims>(&token, &dk, &validation)?.claims)

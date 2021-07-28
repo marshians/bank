@@ -7,8 +7,7 @@ import { Image } from "semantic-ui-react";
 const AuthContext = React.createContext(null);
 
 const Auth = ({ onUserUpdate }) => {
-  let client_id =
-    "716077649050-1ljjukjd46g833cvmja7d5etnc350fte.apps.googleusercontent.com";
+  let client_id = process.env.REACT_APP_CLIENT_ID;
   let [user, setUser] = React.useState(null);
 
   let failure = (e) => {
