@@ -24,7 +24,7 @@ let AccountList = ({ accounts }) => {
   return (
     <div style={{ marginTop: "20px" }}>
       <Header size="huge">Accounts</Header>
-      <Table celled>
+      <Table celled color="orange">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>

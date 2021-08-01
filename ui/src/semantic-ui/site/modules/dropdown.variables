@@ -1,0 +1,23 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@menuBackground: @dark;
+@menuBorder: 1px solid @green;
+@menuColor: @green;
+@defaultTextColor: @green;
+@defaultTextFocusColor: @blue;
+
+@itemBorder: @green;
+@itemColor: @green;
+
+@selectedColor: @orange;
+@selectedBackground: @light;
+
+@hoveredItemColor: @green;
+@hoveredItemBackground: @lighter;
+
+@selectionBackground: @dark;
+@selectionTextColor: @green;
+@selectionBorder: 1px solid @green;
+@selectionHoverBorderColor: 1px solid @green;
+@selectionVisibleTextColor: @blue;

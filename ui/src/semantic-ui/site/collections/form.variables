@@ -1,0 +1,26 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@inputBackground: @dark;
+@inputBorder: 1px solid @green;
+@inputColor: @green;
+
+@inputAutoFillBackground: @light;
+@inputAutoFillBorder: 1px solid @green;
+@inputAutoFillFocusBorder: 1px solid @blue;
+
+
+@inputFocusBackground: @light;
+@inputFocusBorder: 1px solid @blue;
+@inputFocusColor: @blue;
+
+@inputErrorFocusBackground: @light;
+@inputErrorFocusBorder: 1px solid @red;
+@inputErrorFocusColor: @red;
+
+
+@labelColor: @orange;
+
+@inputPlaceholderColor: @grey;
+@inputPlaceholderFocusColor: @blue;
+@inputErrorPlaceholderFocusColor: @red;

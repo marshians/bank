@@ -1,0 +1,14 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@background: @light;
+@color: @green;
+
+@attachedBorder: none;
+@attachedBoxShadow: 0px 1px @green;
+
+@itemFontWeight: 800;
+
+@activeItemFontWeight: 800;
+@activeItemBackground: @green;
+@activeItemTextColor: @light;

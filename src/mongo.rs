@@ -33,6 +33,8 @@ impl error::Error for Error {
     }
 }
 
+
+
 impl From<mongodb::error::Error> for Error {
     fn from(err: mongodb::error::Error) -> Error {
         Error::Database(err)

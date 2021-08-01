@@ -33,7 +33,7 @@ const Auth = ({ onUserUpdate }) => {
         render={(renderProps) => (
           <button
             style={{
-              backgroundColor: "#2d2a2e",
+              backgroundColor: "#403e41",
               cursor: "pointer",
               border: "none",
             }}

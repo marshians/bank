@@ -1,0 +1,12 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@headerBackground: @dark;
+@background: @light;
+@stripedBackground: @lighter;
+
+@positiveColor: @dark;
+@positiveBackgroundColor: @green;
+
+@negativeColor: @dark;
+@negativeBackgroundColor: @red;
