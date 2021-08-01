@@ -4,7 +4,7 @@ COPY ui /ui
 
 WORKDIR /ui
 
-RUN npm install --silent && npm run build
+RUN yarn install && yarn build
 
 FROM messense/rust-musl-cross:x86_64-musl AS rust
 
