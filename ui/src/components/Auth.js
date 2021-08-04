@@ -2,8 +2,6 @@ import React from "react";
 
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 
-import { Image } from "semantic-ui-react";
-
 const AuthContext = React.createContext(null);
 
 const Auth = ({ onUserUpdate }) => {
@@ -32,16 +30,13 @@ const Auth = ({ onUserUpdate }) => {
         clientId={client_id}
         render={(renderProps) => (
           <button
-            style={{
-              backgroundColor: "#403e41",
-              cursor: "pointer",
-              border: "none",
-            }}
+            className="btn btn-primary"
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
             title="logout"
           >
-            <Image
+            <img
+              style={{ height: "2rem" }}
               alt="logout"
               src={user.getBasicProfile().getImageUrl()}
               size="mini"

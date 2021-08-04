@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Header } from "semantic-ui-react";
-
 import TransactionList from "./TransactionList.js";
 
 import { AuthContext } from "./Auth.js";
@@ -23,16 +21,10 @@ const Account = () => {
 
   return (
     <div>
-      <Header size="huge" textAlign="center">
-        {account._id}
-      </Header>
-      <Header
-        size="huge"
-        color={account.balance >= 0 ? "green" : "red"}
-        textAlign="center"
-      >
+      <h1>{account._id}</h1>
+      <h2 className={account.balance >= 0 ? "text-success" : "text-danger"}>
         {formatter.format(account.balance / 100)}
-      </Header>
+      </h2>
       <TransactionList />
     </div>
   );

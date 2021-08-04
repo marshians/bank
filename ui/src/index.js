@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "semantic-ui-less/semantic.less";
+import "../node_modules/marshians-bootstrap/dist/marshians.css";
+
+import "../node_modules/bootstrap/dist/js/bootstrap.min.js";
 
 import "./index.css";
 

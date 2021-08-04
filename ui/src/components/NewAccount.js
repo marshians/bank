@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Header, Button, Form } from "semantic-ui-react";
-
 import { AuthContext } from "./Auth.js";
 
 import backend from "../api/backend.js";
@@ -21,22 +19,23 @@ let NewAccount = ({ updateAccounts }) => {
   };
 
   return (
-    <div style={{ marginTop: "20px" }}>
-      <Header size="huge">Create Account</Header>
-      <Form onSubmit={handleSubmit}>
-        <Form.Field>
-          <label>Name</label>
+    <div style={{ marginTop: "1em" }}>
+      <h1>Create Account</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Name</label>
           <input
             id="name"
+            className="form-control"
             placeholder="name"
             value={account}
             onChange={(e) => setAccount(e.target.value)}
           />
-        </Form.Field>
-        <Button type="submit" color="blue">
+        </div>
+        <button type="submit" className="btn btn-primary">
           Submit
-        </Button>
-      </Form>
+        </button>
+      </form>
     </div>
   );
 };

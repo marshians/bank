@@ -1,16 +1,19 @@
 import React from "react";
 
-import { Header, Button, Dropdown, Form } from "semantic-ui-react";
-
 import backend from "../api/backend.js";
 import { AuthContext } from "./Auth.js";
 
 let NewTransaction = ({ accounts, updateAccounts }) => {
-  const accountList = accounts.map((account) => ({
-    key: account._id,
-    value: account._id,
-    text: account._id,
-  }));
+  const accountList = [
+    <option key="none" value="" disabled hidden>
+      select an account
+    </option>,
+    ...accounts.map((account) => (
+      <option key={account._id} value={account._id}>
+        {account._id}
+      </option>
+    )),
+  ];
 
   // Our form values.
   const [account, setAccount] = React.useState("");
@@ -30,44 +33,48 @@ let NewTransaction = ({ accounts, updateAccounts }) => {
   };
 
   return (
-    <div style={{ marginTop: "20px" }}>
-      <Header size="huge">Add Transaction</Header>
-      <Form onSubmit={handleSubmit}>
-        <Form.Field>
-          <label>Account</label>
-          <Dropdown
+    <div style={{ marginTop: "1em" }}>
+      <h1>Add Transaction</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Account</label>
+          <select
+            required
             id="account"
-            placeholder="Account"
-            fluid
-            selection
+            className="form-select"
             value={account}
-            onChange={(e, { value }) => setAccount(value)}
-            options={accountList}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Description</label>
+            onChange={(e) => setAccount(e.target.value)}
+          >
+            {accountList}
+          </select>
+        </div>
+        <div className="form-group">
+          <label className="form-label">Description</label>
           <input
+            required
             id="description"
+            className="form-control"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-        </Form.Field>
-        <Form.Field>
-          <label>Amount</label>
+        </div>
+        <div className="form-group">
+          <label className="form-label">Amount</label>
           <input
+            required
             id="amount"
+            className="form-control"
             pattern="^[-]*\d+(?:\.\d{0,2})$"
             placeholder="Amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-        </Form.Field>
-        <Button type="submit" color="blue">
+        </div>
+        <button type="submit" className="btn btn-primary">
           Submit
-        </Button>
-      </Form>
+        </button>
+      </form>
     </div>
   );
 };

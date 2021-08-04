@@ -1,0 +1,16 @@
+h1,
+h2,
+h3 {
+  margin-top: 1em;
+  text-align: center;
+}
+
+td.text-success,
+td.text-danger,
+th.right {
+  text-align: right;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}

@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Header, Table } from "semantic-ui-react";
-
 import { AuthContext } from "./Auth.js";
 import backend from "./../api/backend.js";
 
@@ -20,41 +18,33 @@ let TransactionList = () => {
 
   const rows = transactions.map((txn) => {
     return (
-      <Table.Row key={txn._id.$oid}>
-        <Table.Cell>{txn.when.$date}</Table.Cell>
-        <Table.Cell>{txn.description}</Table.Cell>
-        <Table.Cell
-          textAlign="right"
-          positive={txn.pennies >= 0}
-          negative={txn.pennies < 0}
-        >
+      <tr key={txn._id.$oid}>
+        <td>{txn.when.$date}</td>
+        <td>{txn.description}</td>
+        <td className={txn.pennies >= 0 ? "text-success" : "text-danger"}>
           {formatter.format(txn.pennies / 100)}
-        </Table.Cell>
-        <Table.Cell
-          textAlign="right"
-          positive={txn.balance >= 0}
-          negative={txn.balance < 0}
-        >
+        </td>
+        <td className={txn.balance >= 0 ? "text-success" : "text-danger"}>
           {formatter.format(txn.balance / 100)}
-        </Table.Cell>
-      </Table.Row>
+        </td>
+      </tr>
     );
   });
 
   return (
     <div>
-      <Header size="huge">Recent Transactions</Header>
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Date</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            <Table.HeaderCell textAlign="right">Amount</Table.HeaderCell>
-            <Table.HeaderCell textAlign="right">Balance</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>{rows}</Table.Body>
-      </Table>
+      <h3>Recent Transactions</h3>
+      <table className="table table-striped rounded">
+        <thead>
+          <tr className="table-secondary">
+            <th>Date</th>
+            <th>Description</th>
+            <th className="right">Amount</th>
+            <th className="right">Balance</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
     </div>
   );
 };
