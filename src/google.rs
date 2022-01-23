@@ -142,7 +142,6 @@ pub struct Claims {
     pub name: String,
     pub email: String,
     pub picture: String,
-    pub hd: String,
 }
 
 #[rocket::async_trait]
@@ -164,11 +163,11 @@ impl<'r> FromRequest<'r> for Claims {
             let options = req.rocket().state::<Options>().unwrap();
             match verify_token(parts[1], &options.client_id).await {
                 Ok(claims) => Outcome::Success(claims),
-                Err(_) => {
+                Err(e) => {
                     return Outcome::Failure((
                         Status::Unauthorized,
                         Error::BadRequest("invalid token".to_string()),
-                    ))
+                    ));
                 }
             }
         } else {
@@ -194,7 +193,7 @@ async fn verify_token(token: &str, aud: &str) -> Result<Claims> {
         .ok_or(Error::BadRequest("no key found for kid".to_string()))?;
 
     // Decode with RS256 using Google's keys and our audience.
-    let dk = jsonwebtoken::DecodingKey::from_rsa_components(key.n.as_str(), key.e.as_str());
+    let dk = jsonwebtoken::DecodingKey::from_rsa_components(key.n.as_str(), key.e.as_str())?;
     let mut validation = jsonwebtoken::Validation::new(jsonwebtoken::Algorithm::RS256);
     validation.set_audience(&[aud]);
 

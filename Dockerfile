@@ -4,6 +4,8 @@ COPY ui /ui
 
 WORKDIR /ui
 
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN yarn install && yarn build
 
 FROM messense/rust-musl-cross:x86_64-musl AS rust
