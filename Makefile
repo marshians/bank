@@ -1,5 +1,5 @@
 build:
-	docker build -t marshians/bank .
+	docker build -t cr.marsh.gg/marshians/bank .
 
 push:
-	docker push marshians/bank
+	docker push cr.marsh.gg/marshians/bank

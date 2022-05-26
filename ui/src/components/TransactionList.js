@@ -17,9 +17,10 @@ let TransactionList = () => {
   });
 
   const rows = transactions.map((txn) => {
+	const d = new Date(parseInt(txn.when.$date.$numberLong));
     return (
       <tr key={txn._id.$oid}>
-        <td>{txn.when.$date}</td>
+        <td>{d.toISOString()}</td>
         <td>{txn.description}</td>
         <td className={txn.pennies >= 0 ? "text-success" : "text-danger"}>
           {formatter.format(txn.pennies / 100)}

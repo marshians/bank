@@ -8,7 +8,7 @@ edition = "2018"
 [dependencies]
 bson = "2.0.0-beta.1"
 chrono = { version = "0.4.19", features = ["serde"] }
-clap = "3.0.0-beta.2"
+clap = { version = "3.1.6", features = ["derive", "env"] }
 futures = "0.3.15"
 futures-util = "0.3.15"
 http = "0.2.4"
@@ -16,7 +16,7 @@ hyper = { version = "0.14.10", features = ["client", "http2"] }
 hyper-rustls = { version = "0.22.1", features =["webpki-roots"] }
 jsonwebtoken = "7.2.0"
 lazy_static = "1.4.0"
-mongodb = "2.0.0-beta.1"
+mongodb = "2.1.0"
 rocket = { version = "0.5.0-rc.1", features = ["json"] }
 serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"

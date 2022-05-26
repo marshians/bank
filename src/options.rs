@@ -1,7 +1,7 @@
-use clap::Clap;
+use clap::Parser;
 
 /// Marshian's Banking App.
-#[derive(Clap, Debug)]
+#[derive(Parser, Debug)]
 #[clap(name = "Bank")]
 pub struct Options {
     /// The MongoDB URI to use for the bank database.
@@ -22,6 +22,6 @@ pub struct Options {
     pub client_id: String,
 
     /// The list of administrative users
-    #[clap(short, long, env = "ADMINS", value_delimiter = ",", default_value = "")]
+    #[clap(short, long, env = "ADMINS", value_delimiter = ',', default_value = "")]
     pub admins: Vec<String>,
 }

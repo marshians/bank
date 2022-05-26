@@ -33,8 +33,6 @@ impl error::Error for Error {
     }
 }
 
-
-
 impl From<mongodb::error::Error> for Error {
     fn from(err: mongodb::error::Error) -> Error {
         Error::Database(err)
@@ -182,6 +180,7 @@ mod tests {
 
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
+        let x = 4;
+        assert_eq!(2 + 2, x);
     }
 }

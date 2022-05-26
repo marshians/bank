@@ -4,7 +4,7 @@ use bank;
 
 #[macro_use]
 extern crate rocket;
-use clap::Clap;
+use clap::Parser;
 use rocket::{fs::FileServer, http::Status, response::status, serde::json::Json, State};
 
 #[post("/accounts", data = "<account>")]
@@ -113,7 +113,7 @@ async fn rocket() -> _ {
         .unwrap();
 
     println!("{:?}", options.admins);
-
+    
     rocket::build()
         .manage(Mutex::new(b))
         .manage(options)

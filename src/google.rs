@@ -193,7 +193,7 @@ async fn verify_token(token: &str, aud: &str) -> Result<Claims> {
         .ok_or(Error::BadRequest("no key found for kid".to_string()))?;
 
     // Decode with RS256 using Google's keys and our audience.
-    let dk = jsonwebtoken::DecodingKey::from_rsa_components(key.n.as_str(), key.e.as_str())?;
+    let dk = jsonwebtoken::DecodingKey::from_rsa_components(key.n.as_str(), key.e.as_str());
     let mut validation = jsonwebtoken::Validation::new(jsonwebtoken::Algorithm::RS256);
     validation.set_audience(&[aud]);
 
