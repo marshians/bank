@@ -190,7 +190,7 @@ impl<'r> FromRequest<'r> for Claims {
             // make sure fist part is bearer
             let parts = token.split(' ').collect::<Vec<&str>>();
             if parts.len() != 2 || parts[0].to_lowercase() != "bearer" {
-                return Outcome::Failure((
+                return Outcome::Error((
                     Status::Unauthorized,
                     Error::BadRequest("invalid authorization header".to_string()),
                 ));
@@ -206,14 +206,14 @@ impl<'r> FromRequest<'r> for Claims {
                 Ok(claims) => Outcome::Success(claims),
                 Err(e) => {
                     println!("{e}");
-                    return Outcome::Failure((
+                    return Outcome::Error((
                         Status::Unauthorized,
                         Error::BadRequest("invalid token".to_string()),
                     ));
                 }
             }
         } else {
-            Outcome::Failure((
+            Outcome::Error((
                 Status::Unauthorized,
                 Error::BadRequest("no authorization header".to_string()),
             ))
