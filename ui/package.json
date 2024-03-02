@@ -4,7 +4,7 @@
 	"private": true,
 	"proxy": "http://127.0.0.1:8000/",
 	"dependencies": {
-		"@marshians/bootstrap": "^2.0.2",
+		"@marshians/bootstrap": "^3.0.0",
 		"@popperjs/core": "^2.9.3",
 		"@react-keycloak/web": "^3.4.0",
 		"@testing-library/jest-dom": "^5.11.4",
