@@ -1,16 +1,17 @@
-h1,
-h2,
-h3 {
-  margin-top: 1em;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap");
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #a9dc76;
 }
 
-td.text-success,
-td.text-danger,
-th.right {
-  text-align: right;
-}
-
-.form-group {
-  margin-bottom: 1em;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #78dce8;
 }

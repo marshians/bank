@@ -1,30 +1,19 @@
-import React from "react";
-
-import { Auth } from "./components/Auth.js";
-import Content from "./components/Content.js";
-
+import "@marshians/bootstrap/scss/marshians.scss";
 import "./App.css";
 
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import Keycloak from "keycloak-js";
+import keycloak from "./keycloak";
+import Content from "./app/components/Content";
 
-let App = () => {
-  const keycloak = new Keycloak({
-    url: process.env.REACT_APP_AUTH_URI,
-    realm: process.env.REACT_APP_AUTH_REALM,
-    clientId: process.env.REACT_APP_AUTH_CLIENT_ID,
-  });
-  const onKeycloakTokens = (tokens) => {
-    console.log('keycloak event', tokens, keycloak.subject)
-  };
+function App() {
+  // const admins = ["01a368bd-be7e-4eb5-92ae-7d9d1df8995c"];
 
   return (
-    <ReactKeycloakProvider onEvent={onKeycloakTokens} authClient={keycloak}>
+    <>
       <nav className="navbar navbar-expand-lg navbar-light bg-primary">
         <div className="container-fluid">
-          <div className="navbar-brand" href="#">
+          <div className="navbar-brand">
             <img
-              style={{ height: "2rem" }}
+              style={{ height: "1rem" }}
               src="/images/logo.svg"
               alt="marshians alien"
             />
@@ -41,13 +30,22 @@ let App = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav me-auto mb-3 mb-lg-0">
               <li className="nav-item">
                 <div className="nav-link active">Marshians Bank</div>
               </li>
             </ul>
             <div className="d-flex">
-              <Auth />
+              {keycloak.authenticated && (
+                <button
+                  className="btn btn-warning me-2"
+                  onClick={() => {
+                    keycloak.logout();
+                  }}
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -55,8 +53,8 @@ let App = () => {
       <div className="container">
         <Content />
       </div>
-    </ReactKeycloakProvider>
+    </>
   );
-};
+}
 
 export default App;

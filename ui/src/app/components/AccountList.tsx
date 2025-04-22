@@ -1,14 +1,23 @@
 import React from "react";
 
-let AccountList = ({ accounts }) => {
-  var formatter = new Intl.NumberFormat("en-US", {
+type AccountListItem = {
+  _id: string;
+  balance: number;
+};
+
+type AccountListProps = {
+  accounts: AccountListItem[];
+};
+
+const AccountList: React.FC<AccountListProps> = ({ accounts }) => {
+  const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
 
   const rows = accounts.map((account) => (
     <tr key={account._id}>
-      <td>{account._id}</td>
+      <td className="text-success">{account._id}</td>
       <td className={account.balance >= 0 ? "text-success" : "text-danger"}>
         {formatter.format(account.balance / 100)}
       </td>

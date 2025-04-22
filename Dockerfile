@@ -1,8 +1,9 @@
-FROM node AS ui
+FROM node:current-slim AS ui
 
 COPY ui /ui
 WORKDIR /ui
 ENV NODE_OPTIONS=--openssl-legacy-provider
+RUN mv .env.prod .env
 RUN npm install && npm run build
 
 FROM messense/rust-musl-cross:x86_64-musl AS rust
@@ -13,7 +14,7 @@ RUN cargo build --release --target x86_64-unknown-linux-musl --bin main
 
 FROM scratch
 
-COPY --from=ui /ui/build /ui
+COPY --from=ui /ui/dist /ui
 COPY --from=rust /src/target/x86_64-unknown-linux-musl/release/main /main
 
 EXPOSE 8000

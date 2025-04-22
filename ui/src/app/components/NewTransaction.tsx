@@ -1,11 +1,19 @@
-import { useKeycloak } from "@react-keycloak/web";
 import React from "react";
+import api from "../api";
 
-import backend from "../api/backend.js";
+type Account = {
+  _id: string;
+};
 
-let NewTransaction = ({ accounts, updateAccounts }) => {
-  const { keycloak } = useKeycloak();
+type NewTransactionProps = {
+  accounts: Account[];
+  updateAccounts: () => void;
+};
 
+const NewTransaction: React.FC<NewTransactionProps> = ({
+  accounts,
+  updateAccounts,
+}) => {
   const accountList = [
     <option key="none" value="" disabled hidden>
       select an account
@@ -22,10 +30,10 @@ let NewTransaction = ({ accounts, updateAccounts }) => {
   const [description, setDescription] = React.useState("");
   const [amount, setAmount] = React.useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     (async () => {
-      await backend(keycloak.token).new_transaction(account, description, amount);
+      await api.createTransaction(account, description, amount);
       updateAccounts();
       setAccount("");
       setDescription("");
@@ -66,7 +74,7 @@ let NewTransaction = ({ accounts, updateAccounts }) => {
             required
             id="amount"
             className="form-control"
-            pattern="^[-]*\d+(?:\.\d{0,2})$"
+            pattern="^-?\d+(\.\d{2})?$"
             placeholder="Amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}

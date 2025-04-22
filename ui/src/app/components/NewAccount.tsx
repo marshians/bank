@@ -1,17 +1,18 @@
-import { useKeycloak } from "@react-keycloak/web";
 import React from "react";
+import api from '../api';
 
-import backend from "../api/backend.js";
+type NewAccountProps = {
+  updateAccounts: () => void;
+};
 
-let NewAccount = ({ updateAccounts }) => {
+const NewAccount: React.FC<NewAccountProps> = ({ updateAccounts }) => {
   // Our form values.
   const [account, setAccount] = React.useState("");
 
-  const keycloak = useKeycloak();
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     (async () => {
-      await backend(keycloak.token).new_account(account);
+      await api.createAccount(account);
       updateAccounts();
     })();
     setAccount("");

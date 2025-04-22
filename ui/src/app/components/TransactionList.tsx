@@ -1,16 +1,29 @@
-import { useKeycloak } from "@react-keycloak/web";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../api";
 
-import backend from "./../api/backend.js";
+type Transaction = {
+  _id: { $oid: string };
+  when: { $date: { $numberLong: string } };
+  description: string;
+  pennies: number;
+  balance: number;
+};
 
-let TransactionList = () => {
-  const [transactions, setTransactions] = React.useState([]);
+const TransactionList: React.FC = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const { keycloak } = useKeycloak();
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const data = await api.getTransactions();
+        setTransactions(data);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
 
-  React.useEffect(() => {
-    backend(keycloak.token).get_recent_transactions(setTransactions);
-  }, [keycloak, setTransactions]);
+    fetchTransactions();
+  }, [setTransactions]);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -21,8 +34,8 @@ let TransactionList = () => {
     const d = new Date(parseInt(txn.when.$date.$numberLong));
     return (
       <tr key={txn._id.$oid}>
-        <td>{d.toISOString()}</td>
-        <td>{txn.description}</td>
+        <td className="text-success">{d.toISOString()}</td>
+        <td className="text-success">{txn.description}</td>
         <td className={txn.pennies >= 0 ? "text-success" : "text-danger"}>
           {formatter.format(txn.pennies / 100)}
         </td>
@@ -35,7 +48,7 @@ let TransactionList = () => {
 
   return (
     <div>
-      <h3>Recent Transactions</h3>
+      <h3 style={{ textAlign: "center" }}>Recent Transactions</h3>
       <table className="table table-striped rounded">
         <thead>
           <tr className="table-secondary">
