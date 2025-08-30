@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Bank building base -->
+  <rect x="2" y="30" width="60" height="30" fill="#313244" stroke="#585b70" stroke-width="1"/>
+  
+  <!-- Bank columns -->
+  <rect x="8" y="16" width="6" height="14" fill="#45475a"/>
+  <rect x="17" y="16" width="6" height="14" fill="#45475a"/>
+  <rect x="26" y="16" width="6" height="14" fill="#45475a"/>
+  <rect x="35" y="16" width="6" height="14" fill="#45475a"/>
+  <rect x="44" y="16" width="6" height="14" fill="#45475a"/>
+  <rect x="53" y="16" width="6" height="14" fill="#45475a"/>
+  
+  <!-- Bank roof/pediment -->
+  <polygon points="0,16 32,2 64,16 62,14 32,0 2,14" fill="#89b4fa"/>
+  
+  <!-- Bank entrance -->
+  <rect x="24" y="36" width="16" height="20" fill="#1e1e2e" stroke="#89b4fa" stroke-width="1"/>
+  
+  <!-- Door handles -->
+  <circle cx="28" cy="46" r="1.5" fill="#f9e2af"/>
+  <circle cx="36" cy="46" r="1.5" fill="#f9e2af"/>
+  
+  <!-- Windows -->
+  <rect x="6" y="36" width="10" height="8" fill="#89dceb" opacity="0.7"/>
+  <rect x="48" y="36" width="10" height="8" fill="#89dceb" opacity="0.7"/>
+  <rect x="6" y="48" width="10" height="8" fill="#89dceb" opacity="0.7"/>
+  <rect x="48" y="48" width="10" height="8" fill="#89dceb" opacity="0.7"/>
+  
+  <!-- Window frames -->
+  <rect x="6" y="36" width="10" height="8" fill="none" stroke="#585b70" stroke-width="0.8"/>
+  <rect x="48" y="36" width="10" height="8" fill="none" stroke="#585b70" stroke-width="0.8"/>
+  <rect x="6" y="48" width="10" height="8" fill="none" stroke="#585b70" stroke-width="0.8"/>
+  <rect x="48" y="48" width="10" height="8" fill="none" stroke="#585b70" stroke-width="0.8"/>
+  
+  <!-- Window dividers -->
+  <line x1="11" y1="36" x2="11" y2="44" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="6" y1="40" x2="16" y2="40" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="53" y1="36" x2="53" y2="44" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="48" y1="40" x2="58" y2="40" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="11" y1="48" x2="11" y2="56" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="6" y1="52" x2="16" y2="52" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="53" y1="48" x2="53" y2="56" stroke="#585b70" stroke-width="0.8"/>
+  <line x1="48" y1="52" x2="58" y2="52" stroke="#585b70" stroke-width="0.8"/>
+  
+  <!-- Bank name plate -->
+  <rect x="16" y="10" width="32" height="5" fill="#cba6f7" rx="2"/>
+  <text x="32" y="13.5" text-anchor="middle" fill="#1e1e2e" font-family="Arial, sans-serif" font-size="4" font-weight="bold">BANK</text>
+  
+  <!-- Steps -->
+  <rect x="4" y="60" width="56" height="2" fill="#585b70"/>
+  <rect x="6" y="58" width="52" height="2" fill="#6c7086"/>
+  <rect x="8" y="56" width="48" height="2" fill="#7f849c"/>
+</svg>

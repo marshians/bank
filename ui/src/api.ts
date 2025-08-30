@@ -1,6 +1,5 @@
 import axios from "axios";
-
-import keycloak from "../keycloak";
+import keycloak from "./keycloak";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -28,8 +27,21 @@ apiClient.interceptors.request.use(
   }
 );
 
+export type Account = {
+  _id: string;
+  balance: number;
+};
+
+export type Transaction = {
+  _id: { $oid: string };
+  when: { $date: { $numberLong: string } };
+  description: string;
+  pennies: number;
+  balance: number;
+};
+
 const api = {
-  getAccount: async () => {
+  getAccount: async (): Promise<Account> => {
     try {
       const response = await apiClient.get("/api/accounts/mine");
       return response.data;
@@ -39,7 +51,7 @@ const api = {
     }
   },
 
-  getAccounts: async () => {
+  getAccounts: async (): Promise<Account[]> => {
     try {
       const response = await apiClient.get("/api/accounts");
       return response.data;
@@ -49,7 +61,7 @@ const api = {
     }
   },
 
-  createAccount: async (email: string) => {
+  createAccount: async (email: string): Promise<Account> => {
     try {
       const response = await apiClient.post("/api/accounts", { _id: email });
       return response.data;
@@ -59,7 +71,7 @@ const api = {
     }
   },
 
-  getTransactions: async () => {
+  getTransactions: async (): Promise<Transaction[]> => {
     try {
       const response = await apiClient.get("/api/transactions");
       return response.data;
@@ -69,11 +81,21 @@ const api = {
     }
   },
 
+  getAccountTransactions: async (accountId: string): Promise<Transaction[]> => {
+    try {
+      const response = await apiClient.get(`/api/accounts/${encodeURIComponent(accountId)}/transactions`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching account transactions:", error);
+      throw error;
+    }
+  },
+
   createTransaction: async (
     account: string,
     description: string,
     amount: string
-  ) => {
+  ): Promise<Transaction> => {
     try {
       const response = await apiClient.post("/api/transactions", {
         account_id: account,

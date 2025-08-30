@@ -68,6 +68,28 @@ async fn get_transactions(
     }
 }
 
+#[get("/accounts/<account_id>/transactions")]
+async fn get_account_transactions(
+    account_id: String,
+    b: &State<Mutex<bank::mongo::Bank>>,
+    options: &State<bank::options::Options>,
+    claims: bank::keycloak::Claims,
+) -> Result<Json<Vec<bank::mongo::Transaction>>, status::Custom<String>> {
+    // Verify admin
+    if !options.admins.contains(&claims.sub) {
+        return Err(status::Custom(
+            Status::Unauthorized,
+            "not admin".to_string(),
+        ));
+    }
+
+    let mut b = b.lock().await;
+    match b.get_recent_transactions(&account_id).await {
+        Ok(txns) => Ok(Json(txns)),
+        Err(err) => Err(status::Custom(Status::InternalServerError, err.to_string())),
+    }
+}
+
 #[get("/accounts/mine")]
 async fn get_account_mine(
     b: &State<Mutex<bank::mongo::Bank>>,
@@ -128,7 +150,8 @@ async fn rocket() -> _ {
                 get_account_mine,
                 new_account,
                 new_transaction,
-                get_transactions
+                get_transactions,
+                get_account_transactions
             ],
         )
 }
